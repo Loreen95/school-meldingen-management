@@ -26,11 +26,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             } elseif (trim($_POST['telefoon']) == "") {
                 echo '<div class="alert">Vul je telefoon nummer in</div>';
             } else {
-                $cEmail = $conn->real_escape_string($_POST['email']);
+                $infoEmail = $conn->real_escape_string($_POST['email']);
 
-                $cUser = $conn->query("SELECT * FROM gebruikers WHERE email = '" . $cEmail . "'");
+                $infoUser = $conn->query("SELECT * FROM gebruikers WHERE email = '" . $infoEmail . "'");
 
-                if ($cUser->num_rows) {
+                if ($infoUser->num_rows) {
                     echo '<div class="alert">Deze gebruiker bestaat al</div>';
                 } else {
                     $voornaam = $conn->real_escape_string($_POST['voornaam']);
