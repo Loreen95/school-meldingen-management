@@ -13,6 +13,6 @@ if ($conn->connect_errno) {
 if (isset($_SESSION['id'])) {
     $uID = $conn->real_escape_string($_SESSION['id']);
 
-    $qgebruikers = $conn->query("SELECT * FROM gebruikers where id = '" . $uID . "'");
-    $fgebruikers = $qgebruikers->fetch_assoc();
+    $qUser = $conn->query("SELECT * FROM gebruikers where id = '" . $uID . "'");
+    $fUser = $qUser->fetch_assoc();
 }
