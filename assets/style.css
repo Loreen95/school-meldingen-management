@@ -1,17 +1,25 @@
- /* The alert message box */
- 
- .alert {
-     background-color: #f44336;
-     /* Red */
-     color: white;
-     margin-bottom: 15px;
- }
- /* The alert message box */
- 
- .alertsuccess {
-     padding: 20px;
-     background-color: #0ece2e;
-     /* Green */
-     color: white;
-     margin-bottom: 15p
- }
+body {
+    height: 60%;
+}
+
+#registertxt {
+    position: absolute;
+    top: 74%;
+    left: 30%;
+}
+
+#footer {
+    margin-top: auto
+}
+
+.col-3 {
+    position: relative;
+    left: 13%;
+    top: 10px;
+}
+
+.col-9 {
+    position: relative;
+    left: 14%;
+    top: 10px;
+}

@@ -1,13 +1,13 @@
 <?php
 
 require 'includes/header.php';
-require 'includes/navigation.php';
 require 'database/database.php';
+require 'includes/navigation.php';
 
 
 ?>
-<section class="vh-100" style="background-color: #eee;">
-  <div class="mask d-flex align-items-center h-100" style="background-color: #D6D6D6;">
+<section class="vh-100" style="background-color: #eee;" id="content">
+  <div class="mask d-flex align-items-center h-100" style="background-color: #D6D6D6;" id="content1">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -17,12 +17,12 @@ require 'database/database.php';
                 <div class="my-md-5 pb-5">
                   <h1 class="fw-bold mb-0">Welcome</h1>
                 </div>
+              </div>
             </div>
-        </div>
-    </div>
+          </div>
 </section>
 
-                
+
 
 
 <?php
