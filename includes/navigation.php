@@ -39,6 +39,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="dashboard.php">Instellingen</a></li>
+              <li><a class="dropdown-item" href="dashboard.php">Melding maken</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
