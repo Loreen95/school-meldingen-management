@@ -23,3 +23,16 @@ body {
     left: 14%;
     top: 10px;
 }
+
+thead {
+    background-color: #212529;
+    color: white;
+}
+
+#showhideForm {
+    display: none;
+    width: 300px;
+    border: 1px solid #ccc;
+    padding: 14px;
+    background: #ececec;
+}

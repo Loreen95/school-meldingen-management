@@ -45,7 +45,11 @@
               <?php
               if ($fUser['rol'] == 'medewerker') {
               ?>
-                <li><a class="dropdown-item" href="personeeldashboard.php">Personeel Dashboard</a></li>
+                <li><a class="dropdown-item" href="meldingenlijst.php">Meldingen</a></li>
+                <li><a class="dropdown-item" href="klantenlijst.php">Klantenlijst</a></li>
+                <li><a class="dropdown-item" href="categorielijst.php">Categorielijst</a></li>
+                <li><a class="dropdown-item" href="personeelslijst.php">Personeelslijst</a></li>
+                <li><a class="dropdown-item" href="categoriemanagement.php">Categorie Management</a></li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
