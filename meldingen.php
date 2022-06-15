@@ -4,26 +4,68 @@ require 'includes/header.php';
 require 'database/database.php';
 require 'includes/navigation.php';
 
-$result = $conn->query("SELECT * FROM meldingen");
+$result = $conn->query("SELECT 
+meldingen.id, 
+meldingen.bericht, 
+meldingen.datum, 
+gebruikers.id,
+gebruikers.voornaam,
+gebruikers.achternaam,
+meldingen.opmerking, 
+staff.voornaam, 
+staff.achternaam, 
+meldingen.status, 
+categorieen.naam,
+categorieen.id
+FROM `meldingen`
+JOIN categorieen ON categorieen.id = categorie_id 
+JOIN gebruikers ON gebruikers.id = gebruiker_id 
+JOIN gebruikers 
+AS staff ON staff.id = personeel_id WHERE staff.rol = 'medewerker' AND gebruikers.id ={$_SESSION['id']}");
+
 $meldingen = $result->fetch_all(MYSQLI_ASSOC);
+
+$result = $conn->query("SELECT * FROM categorieen");
+$categories = $result->fetch_all(MYSQLI_ASSOC);
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    if (isset($_POST['submit'])) {
+        if (trim($_POST['titel']) == "" && trim($_POST['bericht']) == "") {
+            echo '<div class="alert alert-danger" role="alert">Vul alle velden in</div>';
+        } elseif (trim($_POST['titel']) == "") {
+            echo '<div class="alert alert-danger" role="alert">Vul een naam in</div>';
+        } elseif (trim($_POST['bericht']) == "") {
+            echo '<div class="alert alert-danger" role="alert">Vul een beschrijving in</div>';
+        } elseif (trim($_POST['categorie']) == "") {
+            echo '<div class="alert alert-danger" role="alert">Kies een categorie</div>';
+        } else {
+            $naam = $conn->real_escape_string($_POST['titel']);
+            $bericht = $conn->real_escape_string($_POST['bericht']);
+            $categorie = $conn->real_escape_string($_POST['categorie']);
+            $id = $conn->real_escape_string($_SESSION['id']);
+            $datum = $conn->real_escape_string($_GET['datum']);
+            $medewerker = "Onbekend";
+
+            $sql = "INSERT INTO meldingen (`titel`, `bericht`, `categorie_id`, `datum`, `gebruiker_id`, `personeel_id`)
+            VALUES ('$naam', '$bericht', '$categorie', '$datum', '$id', '$medewerker')";
+
+            if ($conn->query($sql) === TRUE) {
+                echo '<div class="alert alert-success" role="alert">De melding is aangemaakt.</div>';
+            } else {
+                echo '<div class="alert alert-danger" role="alert">Er is een probleem opgetreden tijdens het aanmaken van de melding.</div>';
+            }
+        }
+    }
+}
 
 ?>
 <div class="col-9">
     <div class="card-header">
         <div class="card-body">
             <div class="card-text">
-                <form class="row g-2" action="meldingen.php" method="POST">
-                    <div class="col-auto ms-auto">
-                        <label for="search" class="visually-hidden">Zoeken</label>
-                        <input type="text" class="form-control form-control-sm" name="search" id="search" placeholder="Zoeken">
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-primary btn-sm mb-3" value="search">Zoeken</button>
-                    </div>
-                </form>
                 <div class="m-4">
                     <!-- Button HTML (to Trigger Modal) -->
-                    <a href="#myModal" role="button" class="btn btn-lg btn-primary" data-bs-toggle="modal">Maak een melding</a>
+                    <a href="#myModal" role="button" class="btn btn-lg btn-primary" data-bs-toggle="modal" id="modal">Maak een melding</a>
 
                     <!-- Modal HTML -->
                     <form class="row g-2" action="meldingen.php" method="POST">
@@ -36,11 +78,21 @@ $meldingen = $result->fetch_all(MYSQLI_ASSOC);
                                     </div>
                                     <div class="modal-body">
                                         <label for="naam" class="form-label">Titel:</label>
-                                        <input type="text" name="naam" class="form-control" id="naam" placeholder="Naam"><br>
-                                        <div class="invalid-feedback">Check this checkbox to continue.</div>
+                                        <input type="text" name="titel" class="form-control" id="naam" placeholder="Naam" required><br>
+
+                                        <select class="form-select" name="categorie" id="status" required>
+                                            <option selected>Kies een categorie</option>
+                                            <?php
+
+                                            foreach ($categories as $cat) :
+                                            ?>
+                                                <option value="<?php echo $cat['id'] ?>"><?php echo $cat['naam'] ?></option>
+                                            <?php
+                                            endforeach;
+                                            ?>
+                                        </select><br>
                                         <label class="form-label" for="textAreaExample" required>Bericht:</label>
-                                        <textarea class="form-control" id="textAreaExample" rows="4" required></textarea></br>
-                                        <div class="invalid-feedback">Check this checkbox to continue.</div>
+                                        <textarea name="bericht" class="form-control" id="textAreaExample" rows="4" required></textarea></br>
                                     </div>
                                     <div class=" modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -65,6 +117,21 @@ $meldingen = $result->fetch_all(MYSQLI_ASSOC);
                         </tr>
                     </thead>
                     <tbody>
+                        <?php
+                        foreach ($meldingen as $meld) :
+                        ?>
+                            <tr>
+                                <td><?php echo $meld['id'] ?></td>
+                                <td><?php echo $meld['bericht'] ?></td>
+                                <td><?php echo $meld['naam'] ?></td>
+                                <td><?php echo $meld['datum'] ?></td>
+                                <td><?php echo $meld['status'] ?></td>
+                                <td><?php echo $meld['voornaam'] . " " . $meld['achternaam'] ?></td>
+                                <td><?php echo $meld['opmerking'] ?></td>
+                            </tr>
+                        <?php
+                        endforeach
+                        ?>
                     </tbody>
                 </table>
             </div>

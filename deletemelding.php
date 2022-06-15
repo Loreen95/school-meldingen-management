@@ -9,9 +9,9 @@ if ($fUser['rol'] != 'medewerker') {
 } else {
     $id = $conn->real_escape_string($_GET['id']);
 
-    $sql = "DELETE FROM gebruikers WHERE id = '" . $id . "'";
+    $sql = "DELETE FROM meldingen WHERE id = '" . $id . "'";
 
     if ($conn->query($sql)) {
-        header("location: klantenlijst.php");
+        header("location: meldingenlijst.php");
     }
 }

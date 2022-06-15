@@ -8,8 +8,8 @@ $result = $conn->query("SELECT
 meldingen.id, 
 meldingen.bericht, 
 meldingen.datum, 
-gebruikers.voornaam, 
-gebruikers.achternaam, 
+gebruikers.voornaam as geb_voornaam, 
+gebruikers.achternaam as geb_achternaam, 
 meldingen.opmerking, 
 staff.voornaam, 
 staff.achternaam, 
@@ -54,13 +54,14 @@ $meldingen = $result->fetch_all(MYSQLI_ASSOC);
                     }
                 ?>
             <form action="meldingenlijst.php?edit=<?php echo $_GET['edit']; ?>" method="POST">
-                <select class="form-select" name="status" id="status">
+                <label for="opmerking" class="form-label">Status:</label>
+                <select class="form-select" name="status" id="status" required>
                     <option selected>Selecteer de status van de melding</option>
                     <option value="verwerken">Verwerken</option>
                     <option value="gesloten">Gesloten</option>
                 </select>
-                <label for="opmerking" class="form-label">opmerking:</label>
-                <input type="text" name="opmerking" class="form-control" id="opmerking" placeholder="opmerking">
+                <label for="opmerking" class="form-label">Opmerking:</label>
+                <textarea name="opmerking" class="form-control" id="textAreaExample" rows="4" required></textarea></br>
                 <br>
                 <button name="submit">Invoeren</button>
             </form>
@@ -96,10 +97,9 @@ $meldingen = $result->fetch_all(MYSQLI_ASSOC);
                         <td><?php echo $meld['bericht'] ?></td>
                         <td><?php echo $meld['naam'] ?></td>
                         <td><?php echo $meld['datum'] ?></td>
-                        <td><?php echo $meld['voornaam'] . " " . $meld['achternaam'] ?></td>
+                        <td><?php echo $meld['geb_voornaam'] . " " . $meld['geb_achternaam'] ?></td>
                         <td><?php echo $meld['status'] ?></td>
                         <td><?php echo $meld['voornaam'] . " " . $meld['achternaam'] ?></td>
-
                         <td><?php echo $meld['opmerking'] ?></td>
                         <td><a href="meldingenlijst.php?edit=<?php echo $meld['id'] ?>" style="color: blue;"><i class="bi bi-pencil"></i></a> <a href="deleteproduct.php?id=<?php echo $meld['id'] ?>" style="color: red;"><i class="bi bi-x-lg"></i></a></td>
                     </tr>
