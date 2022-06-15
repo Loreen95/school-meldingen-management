@@ -4,24 +4,10 @@ require 'includes/header.php';
 require 'database/database.php';
 require 'includes/navigation.php';
 
-$result = $conn->query("SELECT 
-meldingen.id, 
-meldingen.bericht, 
-meldingen.datum, 
-gebruikers.id,
-gebruikers.voornaam,
-gebruikers.achternaam,
-meldingen.opmerking, 
-staff.voornaam, 
-staff.achternaam, 
-meldingen.status, 
-categorieen.naam,
-categorieen.id
+$result = $conn->query("SELECT *
 FROM `meldingen`
-JOIN categorieen ON categorieen.id = categorie_id 
-JOIN gebruikers ON gebruikers.id = gebruiker_id 
-JOIN gebruikers 
-AS staff ON staff.id = personeel_id WHERE staff.rol = 'medewerker' AND gebruikers.id ={$_SESSION['id']}");
+RIGHT JOIN categorieen ON categorieen.id = categorie_id 
+RIGHT JOIN gebruikers ON gebruikers.id = gebruiker_id WHERE gebruikers.id ={$_SESSION['id']}");
 
 $meldingen = $result->fetch_all(MYSQLI_ASSOC);
 
@@ -43,11 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $bericht = $conn->real_escape_string($_POST['bericht']);
             $categorie = $conn->real_escape_string($_POST['categorie']);
             $id = $conn->real_escape_string($_SESSION['id']);
-            $datum = $conn->real_escape_string($_GET['datum']);
-            $medewerker = "Onbekend";
 
-            $sql = "INSERT INTO meldingen (`titel`, `bericht`, `categorie_id`, `datum`, `gebruiker_id`, `personeel_id`)
-            VALUES ('$naam', '$bericht', '$categorie', '$datum', '$id', '$medewerker')";
+            $sql = "INSERT INTO meldingen (`titel`, `bericht`, `categorie_id`, `datum`, `gebruiker_id`, `personeel_id`, `status`)
+            VALUES ('$naam', '$bericht', '$categorie', NOW(), '$id', NULL, 'verwerken')";
 
             if ($conn->query($sql) === TRUE) {
                 echo '<div class="alert alert-success" role="alert">De melding is aangemaakt.</div>';
@@ -102,6 +86,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             </div>
                         </div>
                     </form>
+                    <?php
+                    if (isset($_POST['submit'])) {
+                        header('Refresh: 0; url=meldingenlijst.php');
+                    }
+                    ?>
                 </div>
                 <table class=table>
                     <thead>

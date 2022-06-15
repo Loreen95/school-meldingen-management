@@ -32,7 +32,7 @@ $categories = $result->fetch_all(MYSQLI_ASSOC);
                         <td><?php echo $cat['id'] ?></td>
                         <td><?php echo $cat['naam'] ?></td>
                         <td><?php echo $cat['beschrijving'] ?></td>
-                        <td><a href="&edit=<?php echo $cat['id'] ?>" style="color: blue;"><i class="bi bi-pencil"></i></a> <a href="deleteproduct.php?id=<?php echo $cat['id'] ?>" style="color: red;"><i class="bi bi-x-lg"></i></a></td>
+                        <td><a href="&edit=<?php echo $cat['id'] ?>" style="color: blue;"><i class="bi bi-pencil"></i></a> <a href="deletecategorie.php?id=<?php echo $cat['id'] ?>" style="color: red;"><i class="bi bi-x-lg"></i></a></td>
                     </tr>
                 <?php } ?>
             </tbody>
